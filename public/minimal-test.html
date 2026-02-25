@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minimal Three.js Test</title>
+    <style>
+      body {
+        margin: 0;
+        background: #000;
+      }
+      #container {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+      let scene, camera, renderer, controls;
+
+      function init() {
+        console.log("Initializing minimal Three.js scene...");
+
+        // Scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x222222);
+
+        // Camera
+        camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        camera.position.set(5, 5, 5);
+
+        // Renderer
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        const container = document.getElementById("container");
+        container.appendChild(renderer.domElement);
+
+        // Controls
+        if (typeof THREE.OrbitControls !== "undefined") {
+          controls = new THREE.OrbitControls(camera, renderer.domElement);
+          controls.enableDamping = true;
+          console.log("OrbitControls initialized");
+        } else {
+          console.error("OrbitControls not available");
+        }
+
+        // Light
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(10, 10, 5);
+        scene.add(directionalLight);
+
+        // Test cube
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        // Test floor
+        const floorGeometry = new THREE.PlaneGeometry(10, 10);
+        const floorMaterial = new THREE.MeshLambertMaterial({
+          color: 0x666666,
+        });
+        const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+        floor.rotation.x = -Math.PI / 2;
+        floor.position.y = -1;
+        scene.add(floor);
+
+        console.log("Scene created successfully");
+        animate();
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        if (controls) {
+          controls.update();
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      // Handle window resize
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+      window.addEventListener("resize", onWindowResize, false);
+
+      // Start when DOM is ready
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM loaded, checking Three.js...");
+        console.log("THREE available:", typeof THREE !== "undefined");
+        console.log(
+          "OrbitControls available:",
+          typeof THREE.OrbitControls !== "undefined"
+        );
+
+        if (typeof THREE !== "undefined") {
+          init();
+        } else {
+          console.error("Three.js not loaded!");
+          document.getElementById("container").innerHTML =
+            '<h1 style="color: red;">Three.js failed to load</h1>';
+        }
+      });
+    </script>
+  </body>
+</html>

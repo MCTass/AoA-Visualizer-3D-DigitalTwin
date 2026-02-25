@@ -1,0 +1,14 @@
+{
+  "current_floor_plan": "floor_plans/floor_plan_demo_6x6.png",
+  "floor_plan_size_x": 6.0,
+  "floor_plan_size_y": 6.0,
+  "use_combain": false,
+  "use_uconnect": true,
+  "use_udp": false,
+  "use_serial": true,
+  "logging": false,
+  "udp_port": 5444,
+  "use_websocket": false,
+  "traxmate_url": "https://api.v1.traxmate.io",
+  "traxmate_service_url": "https://capture.v3.thinxmate.com"
+}

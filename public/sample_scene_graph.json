@@ -1,0 +1,105 @@
+{
+  "objects": [
+    {
+      "id": "object_1703174400000",
+      "type": "desk",
+      "name": "desk_1",
+      "position": {
+        "x": 2,
+        "y": 0.5,
+        "z": 1
+      },
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "meshName": "desk_mesh",
+      "timestamp": "2024-01-01T12:00:00.000Z",
+      "metadata": {}
+    },
+    {
+      "id": "object_1703174460000",
+      "type": "chair",
+      "name": "chair_1",
+      "position": {
+        "x": 2,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "meshName": "chair_mesh",
+      "timestamp": "2024-01-01T12:01:00.000Z",
+      "metadata": {}
+    },
+    {
+      "id": "object_1703174520000",
+      "type": "computer",
+      "name": "computer_1",
+      "position": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      },
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "meshName": "computer_mesh",
+      "timestamp": "2024-01-01T12:02:00.000Z",
+      "metadata": {}
+    },
+    {
+      "id": "object_1703174580000",
+      "type": "lamp",
+      "name": "lamp_1",
+      "position": {
+        "x": 1.5,
+        "y": 1,
+        "z": 1
+      },
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "meshName": "lamp_mesh",
+      "timestamp": "2024-01-01T12:03:00.000Z",
+      "metadata": {}
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel_1703174700000_abc123def",
+      "sourceObjectId": "object_1703174460000",
+      "targetObjectId": "object_1703174400000",
+      "relationshipType": "next_to",
+      "description": "chair_1 Next to desk_1",
+      "timestamp": "2024-01-01T12:05:00.000Z",
+      "metadata": {}
+    },
+    {
+      "id": "rel_1703174760000_def456ghi",
+      "sourceObjectId": "object_1703174520000",
+      "targetObjectId": "object_1703174400000",
+      "relationshipType": "on_top_of",
+      "description": "computer_1 On top of desk_1",
+      "timestamp": "2024-01-01T12:06:00.000Z",
+      "metadata": {}
+    },
+    {
+      "id": "rel_1703174820000_ghi789jkl",
+      "sourceObjectId": "object_1703174580000",
+      "targetObjectId": "object_1703174400000",
+      "relationshipType": "next_to",
+      "description": "lamp_1 Next to desk_1",
+      "timestamp": "2024-01-01T12:07:00.000Z",
+      "metadata": {}
+    }
+  ]
+}

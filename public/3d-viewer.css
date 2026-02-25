@@ -1,0 +1,1284 @@
+/* 3D Viewer Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #222;
+  color: white;
+  overflow: hidden;
+}
+
+#container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+#controls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  max-height: calc(100vh - 20px);
+  overflow-y: auto;
+  max-width: 350px;
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+#controls::after {
+  content: "";
+  position: sticky;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #fe6d58, #4287f5);
+  display: block;
+  z-index: 3;
+  margin: 10px -15px -15px -15px;
+  border-radius: 0 0 8px 8px;
+  opacity: 0.7;
+}
+
+.scroll-hint {
+  position: sticky;
+  bottom: 8px;
+  text-align: center;
+  font-size: 10px;
+  color: #888;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 2px 5px;
+  border-radius: 10px;
+  margin: 5px auto;
+  width: fit-content;
+  z-index: 3;
+}
+
+#controls h3 {
+  margin: 0 0 10px 0;
+  color: #fe6d58;
+  position: sticky;
+  top: 0;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 5px 0;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+#controls button {
+  background: #fe6d58;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#controls button:hover {
+  background: #ff5040;
+}
+
+/* Main control buttons sticky positioning */
+#controls > button {
+  background: #fe6d58;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#controls > button:hover {
+  background: #ff5040;
+}
+
+/* Sticky main controls section */
+.main-controls {
+  position: sticky;
+  top: 45px;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 5px 0;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+#model-upload {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  width: 320px;
+}
+
+#model-upload h3 {
+  margin: 0 0 15px 0;
+  color: #fe6d58;
+  text-align: center;
+}
+
+.upload-section {
+  margin-bottom: 15px;
+}
+
+.upload-section label {
+  display: block;
+  margin-bottom: 5px;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.file-input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-input-wrapper input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-input-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: #333;
+  border: 2px dashed #666;
+  border-radius: 4px;
+  text-align: center;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-input-button:hover {
+  border-color: #fe6d58;
+  background: #444;
+}
+
+.file-input-button.has-file {
+  border-color: #4caf50;
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+.dimension-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.dimension-input {
+  flex: 1;
+}
+
+.dimension-input input {
+  width: 100%;
+  padding: 8px;
+  background: #333;
+  border: 1px solid #666;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+}
+
+.dimension-input input:focus {
+  outline: none;
+  border-color: #fe6d58;
+}
+
+.upload-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.upload-actions button {
+  flex: 1;
+  padding: 10px;
+  background: #fe6d58;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.upload-actions button:hover {
+  background: #ff5040;
+}
+
+.upload-actions button:disabled {
+  background: #666;
+  cursor: not-allowed;
+}
+
+.clear-button {
+  background: #666 !important;
+}
+
+.clear-button:hover {
+  background: #777 !important;
+}
+
+#status {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.info-panel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  max-width: 300px;
+}
+
+.legend {
+  margin-top: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 3px;
+}
+
+.legend-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  object-fit: contain;
+  border-radius: 3px;
+}
+
+/* Upload section collapsible styles */
+.upload-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.upload-header h4 {
+  margin: 0;
+  color: #fe6d58;
+}
+
+.toggle-upload-btn {
+  background: transparent;
+  border: 1px solid #666;
+  color: #ccc;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  min-width: 30px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-upload-btn:hover {
+  background: #444;
+  border-color: #fe6d58;
+  color: #fe6d58;
+}
+
+.upload-content {
+  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
+}
+
+.upload-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.upload-content:not(.collapsed) {
+  max-height: 1000px;
+  opacity: 1;
+}
+
+#upload-arrow {
+  transition: transform 0.3s ease;
+  display: inline-block;
+  font-size: 10px;
+}
+
+#upload-arrow.collapsed {
+  transform: rotate(-90deg);
+}
+
+/* Anchor Configuration Section Styles */
+.config-section {
+  margin-bottom: 15px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.config-section:last-child {
+  margin-bottom: 0;
+}
+
+.config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.config-header:hover {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #fe6d58;
+}
+
+.config-header h4 {
+  margin: 0;
+  color: #fe6d58;
+  font-size: 14px;
+}
+
+.toggle-config-btn {
+  background: none;
+  border: none;
+  color: #fe6d58;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.toggle-config-btn:hover {
+  background: rgba(254, 109, 88, 0.2);
+  transform: scale(1.1);
+}
+
+.toggle-config-btn span {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.toggle-config-btn span.collapsed {
+  transform: rotate(-90deg);
+}
+
+.config-content {
+  max-height: 600px;
+  padding: 15px;
+  opacity: 1;
+  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0 0 6px 6px;
+  border: 1px solid #555;
+  border-top: none;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+
+.config-content.collapsed {
+  max-height: 0;
+  padding: 0 15px;
+  opacity: 0;
+  border: none;
+  transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
+}
+
+.anchor-config-list {
+  margin-bottom: 15px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Custom scrollbar for the anchor list */
+.anchor-config-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.anchor-config-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.anchor-config-list::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.anchor-config-list::-webkit-scrollbar-thumb:hover {
+  background-color: #fe6d58;
+}
+
+.anchor-config-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.anchor-config-item:hover {
+  border-color: #fe6d58;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.anchor-config-item h5 {
+  margin: 0 0 10px 0;
+  color: #4287f5;
+  font-size: 13px;
+}
+
+.anchor-coords {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.coord-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.coord-input label {
+  font-size: 11px;
+  color: #ccc;
+  margin-bottom: 3px;
+}
+
+.coord-input input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #666;
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: white;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.coord-input input:focus {
+  border-color: #fe6d58;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+}
+
+.anchor-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.anchor-actions button {
+  background: #fe6d58;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.3s ease;
+}
+
+.anchor-actions button:hover {
+  background: #ff5040;
+  transform: translateY(-1px);
+}
+
+.anchor-actions .reset-btn {
+  background: #666;
+}
+
+.anchor-actions .reset-btn:hover {
+  background: #888;
+}
+
+.config-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  padding-top: 10px;
+  border-top: 1px solid #444;
+}
+
+.config-actions button {
+  background: #4287f5;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.config-actions button:hover {
+  background: #357abd;
+  transform: translateY(-1px);
+}
+
+#reset-positions-btn {
+  background: #666;
+}
+
+#reset-positions-btn:hover {
+  background: #888;
+}
+
+/* Origin Control Section Styles */
+.origin-section {
+  margin-top: 15px;
+}
+
+.origin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #555;
+}
+
+.origin-header h4 {
+  margin: 0;
+  color: #4287f5;
+  font-size: 14px;
+}
+
+.origin-content {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0 0 6px 6px;
+  border: 1px solid #555;
+  border-top: none;
+}
+
+.origin-coords {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.origin-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.origin-actions button {
+  background: #4287f5;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.origin-actions button:hover {
+  background: #357abd;
+  transform: translateY(-1px);
+}
+
+.origin-actions .reset-btn {
+  background: #666;
+}
+
+.origin-actions .reset-btn:hover {
+  background: #888;
+}
+
+.origin-actions .set-by-click-btn {
+  background: #28a745;
+}
+
+.origin-actions .set-by-click-btn:hover {
+  background: #218838;
+}
+
+#origin-status-text {
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
+  margin: 5px 0 0 0;
+  min-height: 16px;
+}
+
+.origin-manual-controls {
+  margin-top: 15px;
+  border-top: 1px solid #555;
+  padding-top: 15px;
+}
+
+.origin-input-group {
+  margin-bottom: 10px;
+}
+
+.origin-input-group label {
+  display: block;
+  font-size: 12px;
+  color: #ccc;
+  margin-bottom: 4px;
+}
+
+.input-stepper {
+  display: flex;
+  align-items: center;
+}
+
+.input-stepper input {
+  width: 100%;
+  text-align: center;
+  background: #222;
+  border: 1px solid #666;
+  color: white;
+  border-radius: 4px;
+  padding: 6px 4px;
+  font-size: 13px;
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+.input-stepper input::-webkit-outer-spin-button,
+.input-stepper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-stepper button {
+  width: 30px;
+  height: 30px;
+  background: #555;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 30px;
+  padding: 0;
+}
+
+.input-stepper button:hover {
+  background: #666;
+}
+
+.input-stepper button:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.input-stepper button:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+.origin-content .status-text {
+  font-size: 12px;
+  color: #ccc;
+  margin-top: 10px;
+  min-height: 1.2em;
+  text-align: center;
+}
+
+#viewer-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: #111;
+}
+
+#viewer-container canvas {
+  display: block;
+}
+
+/* Object Relationships Styles */
+.objects-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.object-item {
+  margin-bottom: 15px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.object-item:hover {
+  border-color: #fe6d58;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.object-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.object-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.object-details {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+  flex: 1;
+}
+
+.object-name {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  margin-bottom: 4px;
+  width: 100%;
+  max-width: 150px;
+}
+
+.object-name:focus {
+  border-color: #fe6d58;
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.object-type-small {
+  font-size: 10px;
+  color: #aaa;
+  font-style: italic;
+}
+
+.object-position {
+  font-size: 10px;
+  color: #888;
+}
+
+.object-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.relation-btn,
+.delete-btn {
+  background: #4287f5;
+  color: white;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  min-width: 25px;
+  height: 25px;
+}
+
+.relation-btn:hover {
+  background: #357abd;
+  transform: scale(1.1);
+}
+
+.delete-btn {
+  background: #dc3545;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+  transform: scale(1.1);
+}
+
+.relationship-panel {
+  border-top: 1px solid #444;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 8px 8px;
+}
+
+.relationship-section h5,
+.existing-relationships h5 {
+  margin: 0 0 8px 0;
+  color: #fe6d58;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.relationship-controls {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.relationship-type,
+.target-object {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  padding: 4px 6px;
+  font-size: 11px;
+  min-width: 120px;
+}
+
+.relationship-type:focus,
+.target-object:focus {
+  border-color: #fe6d58;
+  outline: none;
+}
+
+.add-rel-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.3s ease;
+}
+
+.add-rel-btn:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+.relationships-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.relationship-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 11px;
+}
+
+.rel-description {
+  color: #ccc;
+  flex: 1;
+}
+
+.rel-description strong {
+  color: #4287f5;
+}
+
+.remove-rel-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 10px;
+  transition: all 0.3s ease;
+  min-width: 20px;
+  height: 20px;
+}
+
+.remove-rel-btn:hover {
+  background: #c82333;
+  transform: scale(1.1);
+}
+
+.existing-relationships {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #333;
+}
+
+/* Scrollbar styling for objects container */
+.objects-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.objects-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.objects-container::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 3px;
+}
+
+.objects-container::-webkit-scrollbar-thumb:hover {
+  background-color: #fe6d58;
+}
+
+/* Object Management Action Buttons */
+.config-content .object-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 5px;
+}
+
+.config-content .object-actions button {
+  flex: 1;
+  margin: 0;
+  padding: 6px 8px;
+  background: #4287f5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.3s ease;
+}
+
+.config-content .object-actions button:hover {
+  background: #357abd;
+  transform: translateY(-1px);
+}
+
+.config-content .object-actions button:first-child {
+  background: #dc3545;
+}
+
+.config-content .object-actions button:first-child:hover {
+  background: #c82333;
+}
+
+.config-content .object-actions button:nth-child(3) {
+  background: #28a745;
+}
+
+.config-content .object-actions button:nth-child(3):hover {
+  background: #218838;
+}
+
+/* Layered View Button */
+.config-content .object-actions button.layered-view-btn {
+  background: #6c757d;
+}
+
+.config-content .object-actions button.layered-view-btn:hover {
+  background: #5a6268;
+}
+
+.config-content .object-actions button.layered-view-btn.active {
+  background: #007bff;
+  color: white;
+}
+
+.config-content .object-actions button.layered-view-btn.active:hover {
+  background: #0056b3;
+}
+
+.persistence-info {
+  font-size: 10px;
+  color: #888;
+  margin: 5px 0;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Session Management Styles */
+.session-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.current-scene-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.current-scene-info label {
+  color: #ccc;
+}
+
+.session-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.session-actions button {
+  flex: 1;
+  background: #4287f5;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.3s ease;
+}
+
+.session-actions button:hover {
+  background: #357abd;
+  transform: translateY(-1px);
+}
+
+.session-actions button:first-child {
+  background: #28a745;
+}
+
+.session-actions button:first-child:hover {
+  background: #218838;
+}
+
+.sessions-container {
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid #333;
+  transition: all 0.3s ease;
+}
+
+.session-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.session-item:last-child {
+  border-bottom: none;
+}
+
+.session-item.current-session {
+  background: rgba(66, 135, 245, 0.2);
+  border-left: 3px solid #4287f5;
+}
+
+.session-info {
+  flex: 1;
+}
+
+.session-name {
+  font-weight: bold;
+  color: #fff;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.session-stats {
+  font-size: 10px;
+  color: #aaa;
+  margin-bottom: 2px;
+}
+
+.session-date {
+  font-size: 9px;
+  color: #777;
+}
+
+.session-item .session-actions {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.switch-btn {
+  background: #28a745 !important;
+  padding: 4px 8px !important;
+  font-size: 10px !important;
+  min-width: 50px;
+}
+
+.switch-btn:hover {
+  background: #218838 !important;
+}
+
+.delete-session-btn {
+  background: #dc3545 !important;
+  padding: 4px 6px !important;
+  font-size: 10px !important;
+  min-width: 20px;
+}
+
+.delete-session-btn:hover {
+  background: #c82333 !important;
+}
+
+.current-label {
+  font-size: 10px;
+  color: #4287f5;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Scrollbar for sessions container */
+.sessions-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sessions-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.sessions-container::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 3px;
+}
+
+.sessions-container::-webkit-scrollbar-thumb:hover {
+  background-color: #fe6d58;
+}
+
+/* Custom scrollbar for controls panel */
+#controls::-webkit-scrollbar {
+  width: 8px;
+}
+
+#controls::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+#controls::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+#controls::-webkit-scrollbar-thumb:hover {
+  background-color: #fe6d58;
+}
+
+#controls::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Scroll indicators for controls panel */
+#controls::before {
+  content: "";
+  position: sticky;
+  top: 0;
+  height: 10px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+  display: block;
+  z-index: 1;
+  margin: -15px -15px 0 -15px;
+  border-radius: 8px 8px 0 0;
+}
+
+#controls::after {
+  content: "";
+  position: sticky;
+  bottom: 0;
+  height: 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  display: block;
+  z-index: 1;
+  margin: 0 -15px -15px -15px;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Responsive design for controls panel */
+@media (max-height: 800px) {
+  #controls {
+    max-height: calc(100vh - 40px);
+    font-size: 12px;
+  }
+
+  #controls h3 {
+    font-size: 14px;
+  }
+
+  .config-section {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-height: 600px) {
+  #controls {
+    max-height: calc(100vh - 20px);
+    padding: 10px;
+    font-size: 11px;
+  }
+
+  #controls h3 {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .config-section {
+    margin-bottom: 8px;
+  }
+
+  .main-controls button {
+    padding: 6px 8px;
+    margin: 3px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  #controls {
+    max-width: 280px;
+    min-width: 260px;
+  }
+}

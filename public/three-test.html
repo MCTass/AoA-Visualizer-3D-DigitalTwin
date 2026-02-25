@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Three.js Test</title>
+  </head>
+  <body>
+    <div id="test-output"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const output = document.getElementById("test-output");
+
+        if (typeof THREE !== "undefined") {
+          output.innerHTML += "<p>✓ Three.js loaded successfully</p>";
+          output.innerHTML += "<p>Version: " + THREE.REVISION + "</p>";
+
+          if (typeof THREE.OrbitControls !== "undefined") {
+            output.innerHTML += "<p>✓ OrbitControls loaded</p>";
+          } else {
+            output.innerHTML += "<p>✗ OrbitControls NOT loaded</p>";
+          }
+
+          if (typeof THREE.GLTFLoader !== "undefined") {
+            output.innerHTML += "<p>✓ GLTFLoader loaded</p>";
+          } else {
+            output.innerHTML += "<p>✗ GLTFLoader NOT loaded</p>";
+          }
+        } else {
+          output.innerHTML += "<p>✗ Three.js NOT loaded</p>";
+        }
+      });
+    </script>
+  </body>
+</html>

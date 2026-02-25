@@ -1,0 +1,21 @@
+# Logs
+*.log
+*.csv
+*log.json
+
+# Local Config
+# config.json  <- Removing from ignore because I provided a clean one
+# config3D.json
+
+# Build Artifacts
+*.map
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Binaries
+*.exe
+*.bin
+
+# Environment
+.env

@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Floor Plan Viewer - AoA Digital Twin</title>
+    <!-- External CSS file -->
+    <link rel="stylesheet" href="3d-viewer.css" />
+    <!-- Three.js from CDN -->
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+    <!-- OrbitControls -->
+    <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- GLTFLoader -->
+    <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <!-- 3D Viewer Area -->
+      <div
+        id="viewer-container"
+        style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+        "
+      ></div>
+      <div id="controls">
+        <h3>3D Floor Plan Controls</h3>
+
+        <div class="main-controls">
+          <button onclick="toggleAnchors()">Toggle Anchors</button>
+          <button onclick="toggleTags()">Toggle Tags</button>
+          <button onclick="toggleFloor()">Toggle Floor</button>
+          <button onclick="resetCamera()">Reset View</button>
+          <button onclick="window.open('/', '_blank')">2D View</button>
+        </div>
+
+        <!-- 3D Model Upload Section -->
+        <div class="upload-section">
+          <div class="upload-header">
+            <h4>Upload 3D Model</h4>
+            <button
+              class="toggle-upload-btn"
+              onclick="toggleUploadSection()"
+              id="upload-toggle-btn"
+              title="Toggle upload section"
+            >
+              <span id="upload-arrow">▼</span>
+            </button>
+          </div>
+          <div class="upload-content" id="upload-content">
+            <p style="color: #ffcc00; font-size: 12px; margin: 5px 0">
+              <strong>Tip:</strong> Use GLB format for best compatibility. GLTF
+              with external files may not work in browsers.
+            </p>
+
+            <label for="model-file">Select 3D Model (GLB/GLTF):</label>
+            <div class="file-input-wrapper">
+              <input
+                type="file"
+                id="model-file"
+                accept=".glb,.gltf"
+                onchange="handleFileSelect(event)"
+              />
+              <div class="file-input-button" id="file-button">
+                <span id="file-button-text">Choose 3D Model File</span>
+              </div>
+            </div>
+            <div class="dimension-inputs">
+              <div class="dimension-input">
+                <label for="width-input">X: Width (m)</label>
+                <input
+                  type="number"
+                  id="width-input"
+                  value="7.48"
+                  min="1"
+                  max="100"
+                  step="0.1"
+                />
+              </div>
+              <div class="dimension-input">
+                <label for="length-input">Y: Length (m)</label>
+                <input
+                  type="number"
+                  id="length-input"
+                  value="4.81"
+                  min="1"
+                  max="100"
+                  step="0.1"
+                />
+              </div>
+            </div>
+            <div class="upload-actions">
+              <button id="upload-button" onclick="uploadModel()" disabled>
+                Load Model
+              </button>
+              <button class="clear-button" onclick="clearModel()">
+                Clear Model
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Object Identification Section -->
+        <div class="config-section">
+          <div class="config-header">
+            <h4>Object Identification</h4>
+            <button
+              class="toggle-config-btn"
+              onclick="sceneGraphManager.toggleSection()"
+              id="object-toggle-btn"
+              title="Toggle object identification section"
+            >
+              <span id="object-arrow">▶</span>
+            </button>
+          </div>
+          <div class="config-content collapsed" id="object-content">
+            <p style="color: #ffcc00; font-size: 12px; margin: 5px 0">
+              <strong>Tip:</strong> Click "Start Identifying" to enable clicking
+              on 3D objects. Select object type before clicking.
+            </p>
+
+            <div class="object-controls">
+              <button
+                id="identify-toggle-btn"
+                class="identify-btn"
+                onclick="sceneGraphManager.toggleIdentifyMode()"
+              >
+                Start Identifying Objects
+              </button>
+              <div class="object-type-selector">
+                <label for="object-type-select">Object Type:</label>
+                <select
+                  id="object-type-select"
+                  onchange="sceneGraphManager.setObjectType(this.value)"
+                >
+                  <!-- Options will be populated dynamically by the scene graph manager -->
+                </select>
+              </div>
+
+              <div class="identified-objects-count">
+                <span id="object-count">Identified Objects: 0</span>
+              </div>
+              <div class="object-actions">
+                <button
+                  onclick="sceneGraphManager.clearAllObjects()"
+                  title="Clear all objects and relationships"
+                >
+                  Clear All
+                </button>
+                <button
+                  onclick="sceneGraphManager.exportSceneGraph()"
+                  title="Export scene data to JSON file"
+                >
+                  Export
+                </button>
+                <button
+                  onclick="sceneGraphManager.importSceneGraph()"
+                  title="Import scene data from JSON file"
+                >
+                  Import
+                </button>
+                <button
+                  id="layered-view-toggle-btn"
+                  onclick="sceneGraphManager.toggleLayeredView()"
+                  title="Toggle layered architecture view with relationship lines"
+                >
+                  Layered View
+                </button>
+              </div>
+
+              <div
+                class="persistence-info"
+                style="
+                  font-size: 10px;
+                  color: #888;
+                  margin: 5px 0;
+                  text-align: center;
+                "
+              >
+                Data is automatically saved to browser storage
+              </div>
+
+              <div class="identified-objects-list" id="identified-objects-list">
+                <div class="empty-list-message">No objects identified yet</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Session Management Section -->
+        <div class="config-section">
+          <div class="config-header">
+            <h4>Scene Sessions</h4>
+            <button
+              class="toggle-config-btn"
+              onclick="sceneGraphManager.toggleSessionPanel()"
+              id="session-toggle-btn"
+              title="Toggle session management"
+            >
+              <span id="session-arrow">▶</span>
+            </button>
+          </div>
+          <div class="config-content collapsed" id="session-content">
+            <p style="color: #ffcc00; font-size: 12px; margin: 5px 0">
+              <strong>Tip:</strong> Manage different scene sessions. Each
+              session saves objects and relationships separately.
+            </p>
+
+            <div class="session-controls">
+              <div class="current-scene-info">
+                <label>Current Scene:</label>
+                <span
+                  id="current-scene-id"
+                  style="color: #4287f5; font-weight: bold"
+                  >-</span
+                >
+              </div>
+
+              <div class="session-actions">
+                <button
+                  onclick="sceneGraphManager.createNewScene()"
+                  title="Create a new empty scene"
+                >
+                  New Scene
+                </button>
+                <button
+                  onclick="sceneGraphManager.refreshSessionList()"
+                  title="Refresh the list of saved scenes"
+                >
+                  Refresh
+                </button>
+              </div>
+
+              <div class="saved-scenes-list" id="saved-scenes-list">
+                <div class="empty-list-message">Loading saved scenes...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Anchor Position Configuration Section -->
+        <div class="config-section">
+          <div class="config-header">
+            <h4>Anchor Position Configuration</h4>
+            <button
+              class="toggle-config-btn"
+              onclick="toggleConfigSection()"
+              id="config-toggle-btn"
+              title="Toggle anchor configuration section"
+            >
+              <span id="config-arrow">▶</span>
+            </button>
+          </div>
+          <div class="config-content collapsed" id="config-content">
+            <p style="color: #ffcc00; font-size: 12px; margin: 5px 0">
+              <strong>Test Mode:</strong> Manually adjust anchor positions for
+              testing purposes.
+            </p>
+
+            <div class="anchor-config-list" id="anchor-config-list">
+              <!-- Anchor configuration inputs will be dynamically populated here -->
+            </div>
+
+            <div class="config-actions">
+              <button id="refresh-anchors-btn" onclick="refreshAnchorConfig()">
+                Refresh Anchors
+              </button>
+              <button id="reset-positions-btn" onclick="resetAnchorPositions()">
+                Reset Positions
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Origin Point Control Section -->
+        <div class="config-section">
+          <div class="config-header">
+            <h4>Origin Point Control</h4>
+            <button
+              class="toggle-config-btn"
+              onclick="toggleOriginSection()"
+              id="origin-toggle-btn"
+              title="Toggle origin control section"
+            >
+              <span id="origin-arrow">▶</span>
+            </button>
+          </div>
+          <div class="config-content collapsed" id="origin-content">
+            <p style="color: #ffcc00; font-size: 12px; margin: 5px 0">
+              <strong>Tip:</strong> Click "Set by Clicking" to click on the 3D
+              floor to set origin, then use input fields to fine-tune decimal
+              precision.
+            </p>
+
+            <div class="origin-manual-controls">
+              <div class="origin-coords">
+                <div class="coord-input">
+                  <label for="origin-x-input">X (m)</label>
+                  <input
+                    type="number"
+                    id="origin-x-input"
+                    value="0"
+                    step="0.01"
+                    min="-50"
+                    max="50"
+                    oninput="previewOriginChange()"
+                  />
+                </div>
+                <div class="coord-input">
+                  <label for="origin-y-input">Y (m)</label>
+                  <input
+                    type="number"
+                    id="origin-y-input"
+                    value="0"
+                    step="0.01"
+                    min="-50"
+                    max="50"
+                    oninput="previewOriginChange()"
+                  />
+                </div>
+                <div class="coord-input">
+                  <label for="origin-z-input">Z (m)</label>
+                  <input
+                    type="number"
+                    id="origin-z-input"
+                    value="0"
+                    step="0.01"
+                    min="-50"
+                    max="50"
+                    oninput="previewOriginChange()"
+                  />
+                </div>
+              </div>
+              <div class="origin-actions">
+                <button class="apply-btn" onclick="applyOriginPosition()">
+                  Apply Origin
+                </button>
+                <button class="set-by-click-btn" onclick="enterSetOriginMode()">
+                  Set by Clicking
+                </button>
+                <button class="reset-btn" onclick="resetOriginPosition()">
+                  Reset to Default
+                </button>
+              </div>
+
+              <p id="origin-status-text" class="status-text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <h3>3D Indoor Positioning</h3>
+        <p>Real-time visualization of the indoor positioning system</p>
+        <div class="legend">
+          <div class="legend-item">
+            <img
+              src="static/media/Anchor-img.png"
+              alt="Anchor"
+              class="legend-icon"
+            />
+            <span>Anchors</span>
+          </div>
+          <div class="legend-item">
+            <img
+              src="static/media/C209-tag.png"
+              alt="Tag"
+              class="legend-icon"
+            />
+            <span>Tags</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #888"></div>
+            <span>Floor Plan</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #4caf50"></div>
+            <span>3D Models</span>
+          </div>
+        </div>
+        <div id="info">
+          <p id="anchor-count">Anchors: 0</p>
+          <p id="tag-count">Tags: 0</p>
+          <p id="model-status">3D Model: None</p>
+        </div>
+      </div>
+
+      <div id="status">
+        <span id="status-text">Initializing 3D viewer...</span>
+      </div>
+    </div>
+
+    <!-- External JavaScript files -->
+    <script src="3d-viewer.js"></script>
+    <script src="3d-scene-graph.js"></script>
+
+    <script>
+      // Initialize scene graph manager after the main 3D viewer is loaded
+      window.addEventListener("load", function () {
+        console.log("Page loaded, waiting for scene initialization...");
+
+        // Wait for the scene to be initialized
+        setTimeout(() => {
+          console.log("Attempting to initialize scene graph manager...");
+
+          if (typeof sceneGraphManager !== "undefined") {
+            console.log("Scene graph manager found, checking dependencies...");
+
+            if (window.scene && window.camera && window.renderer) {
+              console.log("All dependencies available, initializing...");
+
+              const success = sceneGraphManager.init({
+                scene: window.scene,
+                camera: window.camera,
+                renderer: window.renderer,
+                loadedModel: window.loadedModel,
+                updateStatus: window.updateStatus,
+              });
+
+              if (success) {
+                console.log("Scene graph manager initialized successfully");
+              } else {
+                console.error("Failed to initialize scene graph manager");
+              }
+            } else {
+              console.warn("Dependencies not yet available:", {
+                scene: !!window.scene,
+                camera: !!window.camera,
+                renderer: !!window.renderer,
+              });
+            }
+          } else {
+            console.error("Scene graph manager not found");
+          }
+        }, 1500);
+      });
+    </script>
+  </body>
+</html>
